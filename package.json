@@ -1,0 +1,20 @@
+{
+  "name": "@example/basics",
+  "type": "module",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "@types/leaflet": "^1.9.0",
+    "@types/leaflet.markercluster": "^1.5.1",
+    "astro": "^2.0.6",
+    "leaflet": "^1.9.3",
+    "leaflet.markercluster": "^1.5.3"
+  }
+}

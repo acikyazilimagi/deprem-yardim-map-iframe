@@ -1,0 +1,148 @@
+<main>
+  <div id="map" style="width: 100%; height: 100vh; z-index: 10;"></div>
+  <div
+    style="position: fixed; top: 0; right: 0; z-index: 20; padding: 4px"
+    id="city-control"
+  >
+  </div>
+</main>
+
+<script>
+  // leaflet
+  import * as L from "leaflet";
+  import "leaflet.markercluster";
+  import "leaflet.markercluster/dist/MarkerCluster.Default.css";
+  import "leaflet/dist/leaflet.css";
+
+  const TURKEY_COORDINATES = [39.92077, 32.85411];
+
+  let map = L.map("map");
+  L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
+    attribution:
+      '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors. Bu veri atilan tweetlerin konum bilgileri ile olusturulmustur.',
+  }).addTo(map);
+
+  map.setView(
+    {
+      lat: TURKEY_COORDINATES[0],
+      lng: TURKEY_COORDINATES[1],
+    },
+    10
+  );
+
+  const markers = L.markerClusterGroup();
+
+  let icon = L.icon({
+    iconUrl: "/marker.png",
+
+    iconSize: [38, 38],
+    shadowSize: [50, 64],
+    shadowAnchor: [4, 62],
+    popupAnchor: [-3, -76],
+  });
+
+  const getLocations = () => {
+    const bounds = map.getBounds();
+
+    const southWest = bounds.getSouthWest();
+    const northEast = bounds.getNorthEast();
+
+    const params = new URLSearchParams({
+      ne_lat: String(northEast.lat),
+      ne_lng: String(northEast.lng),
+      sw_lat: String(southWest.lat),
+      sw_lng: String(southWest.lng),
+    });
+
+    const baseURL = "https://api.afetharita.com/tweets/areas?" + params;
+
+    fetch(baseURL)
+      .then((res) => res.json())
+      .then((body) => {
+        const transformedData = body.results.map((location) => {
+          return {
+            coordinates: location.loc,
+            raw: location.raw,
+            formattedAddress: location.formatted_address,
+          };
+        });
+
+        markers.clearLayers();
+
+        transformedData.forEach((location) => {
+          markers.addLayer(
+            L.marker(location.coordinates)
+              .bindPopup(
+                `${location?.formattedAddress} <br/> ${location?.raw?.screen_name} <br/> ${location?.raw?.full_text}`
+              )
+              .setIcon(icon)
+          );
+        });
+
+        map.addLayer(markers);
+      })
+      .catch(console.log);
+  };
+
+  getLocations();
+
+  const CITIES = [
+    {
+      city: "ADANA",
+      coordinates: [37.00167, 35.32889],
+    },
+    {
+      city: "ADIYAMAN",
+      coordinates: [37.76472, 38.27861],
+    },
+    {
+      city: "MALATYA",
+      coordinates: [38.355, 38.30972],
+    },
+    {
+      city: "OSMANIYE",
+      coordinates: [37.07417, 36.24694],
+    },
+    {
+      city: "GAZIANTEP",
+      coordinates: [37.06667, 37.38333],
+    },
+    {
+      city: "HATAY",
+      coordinates: [36.2, 36.16667],
+    },
+  ];
+  const city = document.getElementById("city-control");
+
+  CITIES.forEach((item) => {
+    const button = document.createElement("button");
+    button.innerText = item.city;
+    button.addEventListener("click", () => {
+      map.setView(
+        {
+          lat: item.coordinates[0],
+          lng: item.coordinates[1],
+        },
+        14
+      );
+    });
+    city.appendChild(button);
+  });
+</script>
+
+<style>
+  #city-control button {
+    display: block;
+  }
+</style>
+
+<style>
+  .marker-cluster-small {
+    background-color: #49afa5 !important;
+  }
+
+  .marker-cluster-small div {
+    background-color: #1c9489 !important;
+    color: #fff !important;
+  }
+</style>

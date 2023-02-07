@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>Gomulu Deprem Haritasi</title>
+  </head>
+  <body>
+    <div class="header"></div>
+    <slot />
+  </body>
+</html>
+<style is:global>
+  :root {
+    --accent: 124, 58, 237;
+    --accent-gradient: linear-gradient(
+      45deg,
+      rgb(var(--accent)),
+      #da62c4 30%,
+      white 60%
+    );
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+  html {
+    font-family: system-ui, sans-serif;
+    background-color: #f6f6f6;
+  }
+
+  body {
+    margin: 0;
+    padding: 0;
+  }
+
+  button {
+    background-color: orangered;
+    color: #fff;
+    border: 0px;
+    margin: 0 5px;
+    padding: 8px;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+</style>
