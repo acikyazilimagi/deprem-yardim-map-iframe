@@ -71,4 +71,21 @@
       width: 100% !important;
     }
   }
+
+  body.loading::after {
+    overflow: hidden;
+    background-color: #00000072;
+    content: "Yukleniyor...";
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 20px;
+    color: #fff;
+  }
 </style>

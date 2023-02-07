@@ -16,6 +16,8 @@
 
   const TURKEY_COORDINATES = [39.92077, 32.85411];
 
+  let isError = false;
+
   let map = L.map("map");
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
@@ -41,8 +43,17 @@
     popupAnchor: [-3, -76],
   });
 
+  const setLoading = (loading) => {
+    if (loading) {
+      document.body.classList.add("loading");
+    } else {
+      document.body.classList.remove("loading");
+    }
+  };
+
   const getLocations = () => {
     const bounds = map.getBounds();
+    setLoading(true);
 
     const southWest = bounds.getSouthWest();
     const northEast = bounds.getNorthEast();
@@ -81,7 +92,15 @@
 
         map.addLayer(markers);
       })
-      .catch(console.log);
+      .catch(() => {
+        isError = true;
+        alert("Bir hata olustu. Lutfen daha sonra tekrar dene!");
+      })
+      .finally(() => {
+        if (!isError) {
+          setLoading(false);
+        }
+      });
   };
 
   getLocations();
