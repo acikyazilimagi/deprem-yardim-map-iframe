@@ -18,7 +18,11 @@
 
   let isError = false;
 
-  let map = L.map("map");
+  let map = L.map("map", {
+    zoomControl: false,
+    maxZoom: 18,
+    minZoom: 10,
+  });
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors. Bu veri atilan tweetlerin konum bilgileri ile olusturulmustur.',
@@ -65,7 +69,7 @@
       sw_lng: String(southWest.lng),
     });
 
-    const baseURL = "https://api.afetharita.com/tweets/areas?" + params;
+    const baseURL = "https://api.afetharita.com/feeds/areas?" + params;
 
     fetch(baseURL)
       .then((res) => res.json())
@@ -104,6 +108,18 @@
   };
 
   getLocations();
+
+  let timer = null;
+
+  map.on("moveend", () => {
+    if (timer) {
+      clearTimeout(timer);
+    }
+
+    timer = setTimeout(() => {
+      getLocations();
+    }, 1000);
+  });
 
   const CITIES = [
     {
