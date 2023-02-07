@@ -20,8 +20,8 @@
 
   let map = L.map("map", {
     zoomControl: false,
-    maxZoom: 18,
-    minZoom: 10,
+    // maxZoom: 18,
+    // minZoom: 10,
   });
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
@@ -118,7 +118,7 @@
 
     timer = setTimeout(() => {
       getLocations();
-    }, 1000);
+    }, 400);
   });
 
   const CITIES = [
