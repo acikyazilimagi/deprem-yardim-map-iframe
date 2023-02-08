@@ -44,7 +44,7 @@
     iconSize: [38, 38],
     shadowSize: [50, 64],
     shadowAnchor: [4, 62],
-    popupAnchor: [-3, -76],
+    popupAnchor: [0, -20],
   });
 
   const setLoading = (loading) => {
@@ -53,6 +53,32 @@
     } else {
       document.body.classList.remove("loading");
     }
+  };
+
+  const generatePopupText = (location) => {
+    let result = "";
+
+    result += `
+      <div style="font-size: 14px; line-height: 1.6 ">
+        <div><b>Adres:</b> ${location?.formattedAddress}</div>
+        <div><b>Veri:</b> ${location?.raw?.full_text}</div>
+        <div><b>Dogrulama:</b> ${location?.raw?.is_resolved ? "Evet" : "Hayir"}
+        </div>
+
+        <div> <b>Veri Kanali:</b> ${location?.raw?.channel || "-"}</div>
+        <div>
+            <a
+              href="https://www.google.com/maps/dir/?api=1&destination=${
+                location?.coordinates[0]
+              },${location?.coordinates[1]}"
+              target="_blank"
+              style="font-size: 18px;"
+              >Yol Tarifi</a>
+        </div>
+      </div>
+    `;
+
+    return result;
   };
 
   const getLocations = () => {
@@ -87,9 +113,7 @@
         transformedData.forEach((location) => {
           markers.addLayer(
             L.marker(location.coordinates)
-              .bindPopup(
-                `${location?.formattedAddress} <br/> ${location?.raw?.screen_name} <br/> ${location?.raw?.full_text}`
-              )
+              .bindPopup(generatePopupText(location))
               .setIcon(icon)
           );
         });
