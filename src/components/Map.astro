@@ -18,6 +18,18 @@
 
   let isError = false;
 
+  document.getElementById("find-this-area")?.addEventListener("click", () => {
+    getLocations();
+  });
+
+  const setFindThisAreaBtn = (findThisArea) => {
+    if (!findThisArea) {
+      document.body.classList.remove("find-this-area");
+      return;
+    }
+    document.body.classList.add("find-this-area");
+  };
+
   let map = L.map("map", {
     zoomControl: false,
     // maxZoom: 18,
@@ -27,6 +39,10 @@
     attribution:
       '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors. Bu veri atilan tweetlerin konum bilgileri ile olusturulmustur.',
   }).addTo(map);
+
+  map.on("moveend", () => {
+    setFindThisAreaBtn(true);
+  });
 
   map.setView(
     {
@@ -59,7 +75,7 @@
     let result = "";
 
     result += `
-      <div style="font-size: 14px; line-height: 1.6 ">
+      <div style="font-size: 10px; line-height: 1.6 ">
         <div><b>Adres:</b> ${location?.formattedAddress}</div>
         <div><b>Veri:</b> ${location?.raw?.full_text}</div>
         <div><b>Dogrulama:</b> ${location?.raw?.is_resolved ? "Evet" : "Hayir"}
@@ -127,23 +143,12 @@
       .finally(() => {
         if (!isError) {
           setLoading(false);
+          setFindThisAreaBtn(false);
         }
       });
   };
 
   getLocations();
-
-  let timer = null;
-
-  map.on("moveend", () => {
-    if (timer) {
-      clearTimeout(timer);
-    }
-
-    timer = setTimeout(() => {
-      getLocations();
-    }, 400);
-  });
 
   const CITIES = [
     {
@@ -197,6 +202,9 @@
         },
         14
       );
+      setTimeout(() => {
+        getLocations();
+      });
     });
     city.appendChild(button);
   });

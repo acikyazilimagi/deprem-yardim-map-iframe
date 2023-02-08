@@ -12,6 +12,7 @@
     <div class="alert">
       Lütfen acil durumlar için <b>AFAD</b>'a ulaşınız!
     </div>
+    <button id="find-this-area">BU ALANI TARA</button>
   </body>
 </html>
 <style is:global>
@@ -87,5 +88,21 @@
     align-items: center;
     font-size: 20px;
     color: #fff;
+  }
+
+  body.find-this-area #find-this-area {
+    display: block;
+  }
+
+  #find-this-area {
+    display: none;
+    position: fixed;
+    bottom: 50px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 200px;
+    z-index: 200;
+    background-color: red;
   }
 </style>
