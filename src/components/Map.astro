@@ -15,6 +15,7 @@
   import "leaflet/dist/leaflet.css";
 
   const DEFAULT_LOC = [37.58333, 36.93333];
+  const BASE_URL = "https://apigo.afetharita.com/feeds/areas";
 
   let isError = false;
 
@@ -111,11 +112,15 @@
       sw_lng: String(southWest.lng),
     });
 
-    const baseURL = "https://api.afetharita.com/feeds/areas?" + params;
+    const url = `${BASE_URL}?${params}`;
 
-    fetch(baseURL)
+    fetch(url)
       .then((res) => res.json())
       .then((body) => {
+        markers.clearLayers();
+
+        if (!body.results) return;
+
         const transformedData = body.results.map((location) => {
           return {
             coordinates: location.loc,
@@ -123,8 +128,6 @@
             formattedAddress: location.formatted_address,
           };
         });
-
-        markers.clearLayers();
 
         transformedData.forEach((location) => {
           markers.addLayer(
@@ -136,8 +139,9 @@
 
         map.addLayer(markers);
       })
-      .catch(() => {
+      .catch((e) => {
         isError = true;
+        console.log(e);
         alert("Bir hata olustu. Lutfen daha sonra tekrar dene!");
       })
       .finally(() => {
