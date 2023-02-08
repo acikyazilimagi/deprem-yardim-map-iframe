@@ -14,7 +14,13 @@
   import "leaflet.markercluster/dist/MarkerCluster.Default.css";
   import "leaflet/dist/leaflet.css";
 
-  import { BASE_URL, CITIES, DEFAULT_LOC } from "../constant";
+  import {
+    BASE_URL,
+    CITIES,
+    DEFAULT_LOC,
+    MAX_ZOOM,
+    MIN_ZOOM,
+  } from "../constant";
 
   let isError = false;
 
@@ -32,8 +38,8 @@
 
   let map = L.map("map", {
     zoomControl: false,
-    maxZoom: 18,
-    minZoom: 10,
+    maxZoom: MAX_ZOOM,
+    minZoom: MIN_ZOOM,
   });
 
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {

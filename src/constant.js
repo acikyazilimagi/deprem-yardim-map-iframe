@@ -43,3 +43,6 @@ export const CITIES = [
 
 export const DEFAULT_LOC = [37.58333, 36.93333];
 export const BASE_URL = "https://apigo.afetharita.com/feeds/areas";
+
+export const MIN_ZOOM = 14;
+export const MAX_ZOOM = 18;
