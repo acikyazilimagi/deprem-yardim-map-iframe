@@ -14,7 +14,7 @@
   import "leaflet.markercluster/dist/MarkerCluster.Default.css";
   import "leaflet/dist/leaflet.css";
 
-  const TURKEY_COORDINATES = [39.92077, 32.85411];
+  const DEFAULT_LOC = [37.58333, 36.93333];
 
   let isError = false;
 
@@ -32,8 +32,8 @@
 
   let map = L.map("map", {
     zoomControl: false,
-    // maxZoom: 18,
-    // minZoom: 10,
+    maxZoom: 18,
+    minZoom: 10,
   });
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
@@ -46,8 +46,8 @@
 
   map.setView(
     {
-      lat: TURKEY_COORDINATES[0],
-      lng: TURKEY_COORDINATES[1],
+      lat: DEFAULT_LOC[0],
+      lng: DEFAULT_LOC[1],
     },
     10
   );
@@ -186,6 +186,10 @@
     {
       city: "DİYARBAKIR",
       coordinates: [37.91417, 40.23056],
+    },
+    {
+      city: "KAHRAMANMARAŞ",
+      coordinates: [37.58333, 36.93333],
     },
   ];
 
