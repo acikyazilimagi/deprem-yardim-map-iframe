@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "astro": "^2.0.6",
+    "astro-compress": "^1.1.31",
     "leaflet": "^1.9.3",
     "leaflet.markercluster": "^1.5.3"
   },
