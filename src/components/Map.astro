@@ -83,17 +83,9 @@
 
     result += `
       <div style="font-size: 10px; line-height: 1.6 ">
-        <div><b>Adres:</b> ${location?.formattedAddress}</div>
-        <div><b>Veri:</b> ${location?.raw?.full_text}</div>
-        <div><b>Dogrulama:</b> ${location?.raw?.is_resolved ? "Evet" : "Hayir"}
-        </div>
-
-        <div> <b>Veri Kanali:</b> ${location?.raw?.channel || "-"}</div>
         <div>
             <a
-              href="https://www.google.com/maps/dir/?api=1&destination=${
-                location?.coordinates[0]
-              },${location?.coordinates[1]}"
+              href="https://www.google.com/maps/dir/?api=1&destination=${location?.coordinates[0]},${location?.coordinates[1]}"
               target="_blank"
               style="font-size: 18px;"
               >Yol Tarifi</a>
